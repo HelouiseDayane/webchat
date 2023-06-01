@@ -14,7 +14,7 @@ const NovaConversa = () => {
     event.preventDefault();
     try {
       // Salvar o título no servidor (usando a sua API do Laravel)
-      const response = await axios.post('http://localhost:8000/api/conversas_salvas', { titulo }); // Altere a rota para a sua API de conversas
+      const response = await axios.post('http://localhost:8000/api/conversas_salvas', { titulo }); 
       const conversaId = response.data.id;
 
       // Redirecionar para a página do chat com o título e ID da conversa
@@ -24,7 +24,7 @@ const NovaConversa = () => {
     }
   };
 
-  return (
+ return (
     <div>
       <h1>Digite o título do chat:</h1>
       <form onSubmit={handleSubmit}>
@@ -36,7 +36,7 @@ const NovaConversa = () => {
           onChange={handleTituloChange}
           required
         />
-        <button type="submit">Salvar</button>
+        <button type="submit">Salvar e Iniciar Nova Conversa</button>
       </form>
     </div>
   );

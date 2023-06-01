@@ -14,8 +14,8 @@ class ConversaController extends Controller
      */
     public function index()
     {
-        $conversas = Conversa::all();
-        return ConversaResource::collection($conversas);
+        $conversas = Conversa::select('titulo')->get();      
+        return response()->json(['data' => $conversas]);
     }
 
    
@@ -25,18 +25,27 @@ class ConversaController extends Controller
      */
     public function store(StoreConversaRequest $request)
     {
-        $conversa = Conversa::create($request->all());
-        return new ConversaResource($conversa);
+        $conversa = new Conversa;
+        $conversa->titulo = $request->input('titulo');
+        $conversa->save();
+
+        return response()->json([
+            'id' => $conversa->id,
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Conversa $conversa)
+    public function show($id)
     {
-        return new ConversaResource($conversa);
+        $conversa = Conversa::findOrFail($id);
+        $mensagens = $conversa->mensagens;
+    
+        return response()->json([
+            'data' => $mensagens,
+        ]);
     }
-
  
 
     /**

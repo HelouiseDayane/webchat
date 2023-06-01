@@ -14,4 +14,4 @@ class Conversa extends Model
     {
         return $this->hasMany(Mensagem::class);
     }
-}
+} 
