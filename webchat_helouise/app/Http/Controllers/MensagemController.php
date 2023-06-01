@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoremensagemRequest;
 use App\Http\Requests\UpdatemensagemRequest;
 use App\Models\Mensagem;
+use App\Models\Conversa;
 use App\Http\Resources\MensagemResource;
+use Illuminate\Http\Request;
 
 class MensagemController extends Controller
 {
@@ -22,18 +24,36 @@ class MensagemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoremensagemRequest $request)
+    public function store(Request $request)
     {
-        $mensagem = Mensagem::create($request->all());
-        return new MensagemResource($mensagem);
+        // Validação dos dados recebidos
+        $request->validate([
+            'conteudo' => 'required',
+            'id_conversa' => 'required',
+        ]);
+    
+        $mensagem = new Mensagem();
+        $mensagem->conteudo = $request->input('conteudo');
+        $mensagem->conversa_id = $request->input('id_conversa');
+        $mensagem->save();
+    
+        return response()->json([
+            'mensagem' => $mensagem,
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Mensagem $mensagem)
-    {
-        return new MensagemResource($mensagem);
+    public function show($id)
+    {     
+        $conversa = Conversa::findOrFail($id);
+        $mensagens = Mensagem::where('conversa_id', $id)->get();
+    
+        return response()->json([
+            'conversa' => $conversa,
+            'mensagens' => $mensagens
+        ]);
     }
 
 
@@ -54,4 +74,15 @@ class MensagemController extends Controller
         $mensagem->delete();
         return response()->json(null,204);
     }
+
+
+        public function getMensagens($id)
+        {
+            $mensagens = Mensagem::where('conversa_id', $id)->get();
+
+            return response()->json([
+                'data' => $mensagens
+            ]);
+        }
+   
 }
