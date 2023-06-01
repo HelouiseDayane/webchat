@@ -9,7 +9,7 @@ class Mensagem extends Model
 {
     use HasFactory;
     protected $table = 'mensagens';
-    protected $fillable = ['conteudo', 'conversa_id'];
+    protected $fillable = ['conteudo'];
 
     public function conversa()
     {
