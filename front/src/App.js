@@ -22,17 +22,10 @@ export default function App() {
       </nav>
 
       <Switch>
-      <Route exact path="/" component={NovaConversa} />
-        <Route path="/conversas">
-          <Conversas />
-        </Route>
-        <Route path="/mensagens">
-          <Mensagens />
-        </Route>
-        <Route path="/nova-conversa">
-          <NovaConversa />
-        </Route>
-        <Route path="/chat/:id" component={Mensagens} />
+        <Route exact path="/" component={NovaConversa} />
+        <Route path="/conversas" component={Conversas} />
+        <Route path="/mensagens/:id_conversa" component={Mensagens} />
+        <Route path="/nova-conversa" component={NovaConversa} />
       </Switch>
     </Router>
   );

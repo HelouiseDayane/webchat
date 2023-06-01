@@ -1,33 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const Mensagens = () => {
-  const { id } = useParams();
+  const { id_conversa } = useParams();
   const [mensagens, setMensagens] = useState([]);
   const [novaMensagem, setNovaMensagem] = useState('');
   const [conversaFinalizada, setConversaFinalizada] = useState(false);
-  const [resetChat, setResetChat] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/mensagems/${id}`)
+    axios.get(`http://localhost:8000/api/mensagens/${id_conversa}`)
       .then(response => {
         setMensagens(response.data.data);
       })
       .catch(error => {
         console.error(error);
       });
-  }, [id]);
-
-  useEffect(() => {
-    if (resetChat) {
-      setMensagens([]);
-      setNovaMensagem('');
-      setConversaFinalizada(false);
-      setResetChat(false);
-    }
-  }, [resetChat]);
+  }, [id_conversa]);
 
   const handleEnviarMensagem = () => {
     if (novaMensagem.trim() !== '') {
@@ -35,12 +24,17 @@ const Mensagens = () => {
         id: Date.now(),
         conteudo: novaMensagem,
         enviada: true,
+        id_conversa: id_conversa,
       };
 
       setMensagens([...mensagens, mensagemEnviada]);
       setNovaMensagem('');
 
-      axios.post('http://localhost:8000/api/mensagems', { conteudo: novaMensagem })
+      axios
+        .post('http://localhost:8000/api/mensagens', mensagemEnviada)
+        .then(response => {
+          console.log(response.data); // Exibe a resposta da API (opcional)
+        })
         .catch(error => {
           console.error(error);
         });
@@ -50,11 +44,6 @@ const Mensagens = () => {
   const handleFinalizarConversa = () => {
     setMensagens([]);
     setConversaFinalizada(true);
-  };
-
-  const handleNovaConversa = () => {
-    setResetChat(true);
-    history.push('/nova-conversa');
   };
 
   const handleKeyDown = (event) => {
@@ -68,13 +57,13 @@ const Mensagens = () => {
     return (
       <div>
         <p>Conversa finalizada.</p>
-        <button onClick={handleNovaConversa}>Iniciar nova conversa</button>
+        <Link to="/nova-conversa">Iniciar nova conversa</Link>
       </div>
     );
   }
 
   return (
-    <div className="mensagens-container">
+    <div className="chat-container">
       <div className="mensagens">
         {mensagens.map(mensagem => (
           <div
