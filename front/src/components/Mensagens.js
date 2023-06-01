@@ -6,7 +6,7 @@ const Mensagens = () => {
   const [novaMensagem, setNovaMensagem] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/mensagens')
+    axios.get('http://localhost:8000/api/mensagems')
       .then(response => {
         setMensagens(response.data.data);
       })

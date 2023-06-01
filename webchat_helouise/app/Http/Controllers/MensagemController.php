@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoremensagemRequest;
 use App\Http\Requests\UpdatemensagemRequest;
-use App\Models\mensagem;
+use App\Models\Mensagem;
 use App\Http\Resources\MensagemResource;
 
 class MensagemController extends Controller
@@ -31,7 +31,7 @@ class MensagemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(mensagem $mensagem)
+    public function show(Mensagem $mensagem)
     {
         return new MensagemResource($mensagem);
     }
@@ -40,7 +40,7 @@ class MensagemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatemensagemRequest $request, mensagem $mensagem)
+    public function update(UpdatemensagemRequest $request, Mensagem $mensagem)
     {
         $mensagem->update($request->all());
         return new MensagemResource($mensagem);
