@@ -18,7 +18,7 @@ const NovaConversa = () => {
       const conversaId = response.data.id;
 
       // Redirecionar para a página do chat com o título e ID da conversa
-      history.push(`/chat/${conversaId}`);
+      history.push(`/mensagens/${conversaId}`);
     } catch (error) {
       console.error('Erro ao salvar o título:', error);
     }

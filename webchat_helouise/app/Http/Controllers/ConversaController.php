@@ -6,6 +6,8 @@ use App\Http\Requests\StoreConversaRequest;
 use App\Http\Requests\UpdateConversaRequest;
 use App\Models\Conversa;
 use App\Http\Resources\ConversaResource;
+use Illuminate\Http\Request;
+
 
 class ConversaController extends Controller
 {
@@ -14,7 +16,9 @@ class ConversaController extends Controller
      */
     public function index()
     {
-        $conversas = Conversa::select('titulo')->get();      
+        
+        
+        $conversas = Conversa::all();
         return response()->json(['data' => $conversas]);
     }
 
@@ -64,5 +68,11 @@ class ConversaController extends Controller
     {
         $conversa->delete();
         return response()->json(null, 204);
+    }
+
+    public function getMensagens(Conversa $conversa)
+    {
+        $mensagens = $conversa->mensagens;
+        return response()->json(['data' => $mensagens]);
     }
 }

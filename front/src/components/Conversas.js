@@ -7,6 +7,7 @@ const Conversas = () => {
   const [filteredConversas, setFilteredConversas] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedConversa, setSelectedConversa] = useState(null);
+  const [mensagensModal, setMensagensModal] = useState([]);
 
   useEffect(() => {
     axios
@@ -31,6 +32,15 @@ const Conversas = () => {
   const openModal = conversa => {
     setSelectedConversa(conversa);
     setModalIsOpen(true);
+
+    axios
+      .get(`http://localhost:8000/api/conversas/${conversa.id}/mensagens`)
+      .then(response => {
+        setMensagensModal(response.data.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   const closeModal = () => {
@@ -68,8 +78,11 @@ const Conversas = () => {
         {selectedConversa && (
           <div>
             <h3>{selectedConversa.titulo}</h3>
-            {/* Exiba todas as conversas relacionadas a essa conversa */}
-            {/* Implemente o código necessário para exibir as conversas */}
+            <ul>
+              {mensagensModal.map(mensagem => (
+                <li key={mensagem.id}>{mensagem.conteudo}</li>
+              ))}
+            </ul>
           </div>
         )}
         <button onClick={closeModal}>Fechar</button>
