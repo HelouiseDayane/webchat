@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoremensagemRequest;
 use App\Http\Requests\UpdatemensagemRequest;
 use App\Models\Mensagem;
+use App\Models\Conversa;
 use App\Http\Resources\MensagemResource;
 
 class MensagemController extends Controller
@@ -31,9 +32,12 @@ class MensagemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Mensagem $mensagem)
-    {
-        return new MensagemResource($mensagem);
+    public function show($id)
+    {     
+        $conversa = Conversa::findOrFail($id);
+        $mensagens = Mensagem::where('conversa_id', $id)->get();
+
+        return view('chat', compact('conversa', 'mensagens'));
     }
 
 
@@ -54,4 +58,6 @@ class MensagemController extends Controller
         $mensagem->delete();
         return response()->json(null,204);
     }
+
+   
 }

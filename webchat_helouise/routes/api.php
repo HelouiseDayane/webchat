@@ -21,5 +21,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
  
-Route::apiResource('conversas', ConversaController::class);
+Route::apiResource('conversass', ConversaController::class);
 Route::apiResource('mensagems', MensagemController::class);
+
+
+Route::get('/conversas', [ConversaController::class, 'index']);
+Route::get('/conversas/{id}', [ConversaController::class, 'show']);
+
+Route::post('/conversas_salvas', [ConversaController::class, 'store']);
+Route::get('/chat/{id}', [MensagemController::class, 'show']);
+
+ 
