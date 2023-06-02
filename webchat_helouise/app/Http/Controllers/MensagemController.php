@@ -84,5 +84,20 @@ class MensagemController extends Controller
                 'data' => $mensagens
             ]);
         }
+
+        public function responder(Request $request, $id_conversa)
+        {
+            $validatedData = $request->validate([
+                'conteudo' => 'required|string',
+            ]);
+
+            $mensagem = Mensagem::create([
+                'conteudo' => $validatedData['conteudo'],
+                'id_conversa' => $id_conversa,
+                'enviada' => false, // Indica que a mensagem é uma resposta do atendente
+            ]);
+
+            return response()->json($mensagem, 201);
+        }
    
 }

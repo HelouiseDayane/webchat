@@ -26,8 +26,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     Route::post('/conversas_salvas', [ConversaController::class, 'store']);
     Route::get('conversas', [ConversaController::class, 'index']);
     Route::get('conversas/{conversa}/mensagens', [ConversaController::class, 'getMensagens']);
-
+    Route::post('/conversas/{id_conversa}/responder', [MensagemController::class, 'responder']);
 
     Route::get('/mensagens/{id}', [MensagemController::class, 'getMensagens']);
     Route::get('/mensagens/{id_conversa}', [MensagemController::class, 'show']);
     Route::post('/mensagens', [MensagemController::class, 'store']);
+
+    Route::post('/mensagens/{id_conversa}/responder', [MensagemController::class, 'responder']);

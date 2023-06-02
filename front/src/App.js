@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import Conversas from './components/Conversas';
 import Mensagens from './components/Mensagens';
 import NovaConversa from './components/NovaConversa';
+import AreaAtendente from './components/AreaAtendente';
 
 export default function App() {
   return (
@@ -26,6 +27,8 @@ export default function App() {
         <Route path="/conversas" component={Conversas} />
         <Route path="/mensagens/:id_conversa" component={Mensagens} />
         <Route path="/nova-conversa" component={NovaConversa} />
+        <Route path="/conversa/:id_conversa" component={Mensagens} />
+        <Route path="/AreaAtendente" component={AreaAtendente} />
       </Switch>
     </Router>
   );

@@ -9,22 +9,34 @@ const Mensagens = () => {
   const [conversaFinalizada, setConversaFinalizada] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/mensagens/${id_conversa}`)
+    fetchMensagens();
+
+    const interval = setInterval(() => {
+      fetchMensagens();
+    }, 2000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const fetchMensagens = () => {
+    axios
+      .get(`http://localhost:8000/api/mensagens/${id_conversa}`)
       .then(response => {
         setMensagens(response.data.data);
       })
       .catch(error => {
         console.error(error);
       });
-  }, [id_conversa]);
+  };
 
   const handleEnviarMensagem = () => {
     if (novaMensagem.trim() !== '') {
       const mensagemEnviada = {
-        id: Date.now(),
         conteudo: novaMensagem,
-        enviada: true,
         id_conversa: id_conversa,
+        enviada: true,
       };
 
       setMensagens([...mensagens, mensagemEnviada]);
@@ -33,7 +45,7 @@ const Mensagens = () => {
       axios
         .post('http://localhost:8000/api/mensagens', mensagemEnviada)
         .then(response => {
-          console.log(response.data); // Exibe a resposta da API (opcional)
+          console.log(response.data);
         })
         .catch(error => {
           console.error(error);
@@ -68,8 +80,11 @@ const Mensagens = () => {
         {mensagens.map(mensagem => (
           <div
             key={mensagem.id}
-            className={`mensagem ${mensagem.enviada ? 'enviada' : 'recebida'}`}
+            className={`mensagem ${mensagem.enviada ? 'enviada' : 'recebida'}
+            ${mensagem.enviada ? 'right-align' : ''}`}
+            style={mensagem.enviada ? { textAlign: 'right' } : {}}
           >
+            {mensagem.enviada ? <span>Você: </span> : null}
             {mensagem.conteudo}
           </div>
         ))}
