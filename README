@@ -1,12 +1,29 @@
 Esse exemplo de sistema consiste em um webchat, para atendimento, sem nenhuma senha pois atende ao publico no geral, bastante simples e sem muitos filtros a nivel didático para uma Breve explicação
 
 É necessário instalação previamente de composer, mysql e node.js na máquina que pretende vizualizar o projeto.
-Baixe o projeto, caso não venha todas as libs deixei um arquivo .zip completo caso as libs tenha sido armazenadas no gitignore.
+Baixe o projeto.
 
 Em seguida para emular é necessário digitar no terminal (cmd) no local onde foi feito o download deste arquivo.
 na pasta webchat_helouise: php artisan serve e na pasta front: npm start. para execução do back-end e front-end.
 
 Foi feito o back-end para ser consumido através de API em PHP e framework Laravel, portanto compatível com qualquer técnologia de front-end, porém escolhi React sem nenhuma predileção.
+
+As Variáveis do sistema para consumo são:
+Conversa:
+            'id' => $this->id,
+            'titulo' => $this->titulo,
+            'mensagens' =>MensagemResource::collection($this->mensagens),
+            'create_at' =>$this->create_at,
+            'update_at' =>$this->updated_at,
+
+Mensagem:
+            'id'=>$this->id,
+            'conversa_id'=>$this->conversa_id,
+            'conteudo' => $this->conteudo,
+            'create_at' =>$this->create_at,
+            'update_at' =>$this->updated_at,
+
+Ambos com o crud pronto também.
 
 O sistema consiste nas telas:
 NovaConversa;
@@ -26,3 +43,4 @@ Fico à disposição para esclarecimentos futuros.
 Atencionsamente,
 Helouise Dayane 
 helouisedayane@gmail.com
+
